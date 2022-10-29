@@ -1,0 +1,5 @@
+Link EC2: http://34.229.173.9/Tarea4DW_EC2/index.php/Api
+
+Link del Formulario: https://forms.gle/wrFuJptKeS88SntA9
+
+Link de Github: 

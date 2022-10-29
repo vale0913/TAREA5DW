@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>403 Forbidden</title>
+</head>
+<body>
+
+<p>Directory access is forbidden.</p>
+
+</body>
+</html>
+
+$.ajax({
+	url: "<?php echo base_url();?>update",
+	type: "post",
+	dataType: "json",
+	data: {
+	  alumno: edit_id,
+	  nombre: edit_nombre,
+	  apellido: edit_apellido,
+	  direccion: edit_direccion,
+	  movil: edit_movil,
+	  email: edit_email,
+	  inactivo: edit_inactivo,
+	  user: user,
+	  dpi: edit_dpi
+	},
+	success: function(data){
+		
+		if(data.messagge == "Alumno Actualizado"){
+			fetch();
+			$('#exampleModal').modal('hide');
+			Command: toastr["success"](data.message)
+			toastr.options = {
+			"closeButton": false,
+			"debug": false,
+			"newestOnTop": false,
+			"progressBar": false,
+			"positionClass": "toast-top-right",
+			"preventDuplicates": false,
+			"onclick": null,
+			"showDuration": "300",
+			"hideDuration": "2500",
+			"timeOut": "5000",
+			"extendedTimeOut": "1000",
+			"showEasing": "swing",
+			"hideEasing": "linear",
+			"showMethod": "fadeIn",
+			"hideMethod": "fadeOut"
+			}
+		  }else{
+			$('#exampleModal').modal('hide');
+			Command: toastr["success"](data.message)
+			toastr.options = {
+			"closeButton": false,
+			"debug": false,
+			"newestOnTop": false,
+			"progressBar": false,
+			"positionClass": "toast-top-right",
+			"preventDuplicates": false,
+			"onclick": null,
+			"showDuration": "300",
+			"hideDuration": "2500",
+			"timeOut": "5000",
+			"extendedTimeOut": "1000",
+			"showEasing": "swing",
+			"hideEasing": "linear",
+			"showMethod": "fadeIn",
+			"hideMethod": "fadeOut"
+			}
+		  }  
+
+
+
+  if ($this->input->is_ajax_request()){
+	$this->form_validation->set_rules('nombre', 'Nombre', 'required');
+	$this->form_validation->set_rules('apellido', 'Apellido', 'required');
+	$this->form_validation->set_rules('direccion', 'Direccion', 'required');
+	$this->form_validation->set_rules('dpi', 'Dpi', 'required');
+	$this->form_validation->set_rules('movil', 'Movil', 'required');
+	$this->form_validation->set_rules('email', 'Email', 'required|valid_email');
+	$this->form_validation->set_rules('inactivo', 'Inactivo', 'required');
+
+	if($this->form_validation->run() == FALSE){
+		$data = array('responce' => 'error', 'message' => validation_errors());
+	}else{
+		$data['id'] = $this->input->post('alumno');
+		$data['nombre'] = $this->input->post('nombre');
+		$data['apellido'] = $this->input->post('apellido');
+		$data['direccion'] = $this->input->post('direccion');
+		$data['movil'] = $this->input->post('movil');
+		$data['email'] = $this->input->post('email');
+		$data['inactivo'] = $this->input->post('inactivo');
+		$data['user'] = $this->input->post('user');
+		$data['dpi'] = $this->input->post('dpi');
+		if ($this->Model_Alumnos->update_entry($ajax_data)) {
+			$data = array('responce' => 'success', 'message' => 'Alumno Actualizado');
+		}else{
+			$data = array('responce' => 'error', 'message' => 'No se pudo Actualizar');
+		}						
+	}
+}else{
+	echo "No direct script access allowed";
+}	
+echo json_encode($data);
+
+
+$this->db->update('alumnos', $data, array('alumno' => $data['alumno']));
